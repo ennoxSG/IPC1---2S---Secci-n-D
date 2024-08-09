@@ -100,7 +100,7 @@ public class Ejemplo2 {
             for (int j = matrizEnteros[i].length - 1; j >= 0; j--) {
                 System.out.print(matrizEnteros[i][j] + "\t");
             }
-            System.out.println();
+            System.out.println(); 
         }
 
     }
