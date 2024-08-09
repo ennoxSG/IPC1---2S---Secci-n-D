@@ -18,47 +18,55 @@ public class Clase3 {
     public static void main(String[] args) {
         // TODO code application logic here
         
+        // Crear un ArrayList para almacenar objetos de la clase Cuentas.
         ArrayList<Cuentas> cuentas = new ArrayList<>();
-        cuentas.add(new Cuentas("Esteban" , 100));
-        cuentas.add(new Cuentas("Emerson" , 1000));
-        cuentas.add(new Cuentas("Ayeser" , 500));
-        
-        for (Cuentas cuenta : cuentas){
-            System.out.println("Tituar: " + cuenta.getTitular() + " , Saldo: " + cuenta.getSaldo());
+
+        // Agregar nuevas cuentas al ArrayList.
+        cuentas.add(new Cuentas("Esteban", 100)); // Añade una cuenta con titular "Esteban" y saldo 100.
+        cuentas.add(new Cuentas("Emerson", 1000)); // Añade una cuenta con titular "Emerson" y saldo 1000.
+        cuentas.add(new Cuentas("Ayeser", 500)); // Añade una cuenta con titular "Ayeser" y saldo 500.
+
+        // Recorrer el ArrayList e imprimir los detalles de cada cuenta.
+        for (Cuentas cuenta : cuentas) {
+            System.out.println("Titular: " + cuenta.getTitular() + " , Saldo: " + cuenta.getSaldo());
         }
-        
-        cuentas.get(0).depositar(500.0);
-        cuentas.get(1).retirar(300.0);
-        
-        System.out.println("Despues de realizar las operaciones: ");
-        for (Cuentas cuenta : cuentas){
-            System.out.println("Tituar: " + cuenta.getTitular() + " , Saldo: " + cuenta.getSaldo());
+
+        // Realizar operaciones de depósito y retiro en las cuentas.
+        cuentas.get(0).depositar(500.0); // Deposita 500 en la cuenta de Esteban.
+        cuentas.get(1).retirar(300.0); // Retira 300 de la cuenta de Emerson.
+
+        System.out.println("Después de realizar las operaciones:");
+
+        // Imprimir nuevamente los detalles de cada cuenta después de las operaciones.
+        for (Cuentas cuenta : cuentas) {
+            System.out.println("Titular: " + cuenta.getTitular() + " , Saldo: " + cuenta.getSaldo());
         }
-        
-        
-        cuentas.get(2).retirar(600.0);
-        
-        
+
+        // Intentar retirar una cantidad mayor al saldo disponible en la cuenta de Ayeser.
+        cuentas.get(2).retirar(600.0); // Esto debería mostrar un mensaje de error por saldo insuficiente.
+
         System.out.println("------------------------------");
-        
-        perro wiskas = new perro(  "Labrador", true, "Wiskas", 4, "guau");
-        gato minimo = new gato("Minino", 13, "miau");
-        
-        
+
+        // Crear objetos de las clases Perro y Gato.
+        Perro wiskas = new Perro("Labrador", true, "Wiskas", 4, "guau"); // Crea un perro llamado "Wiskas".
+        Gato minimo = new Gato("Minino", 13, "miau"); // Crea un gato llamado "Minino".
+
+        // Realizar acciones con el perro Wiskas.
         System.out.println("Acciones para: " + wiskas.getNombre());
-        wiskas.hacerSonido(); 
-        wiskas.perseguirCola();
-        
-        
-        if(minimo.getJuguetes().isEmpty()){
-            System.out.println("El ArrayList de juguetes esta vacio");
+        wiskas.hacerSonido(); // El perro hace su sonido (guau).
+        wiskas.perseguirCola(); // El perro persigue su cola.
+
+        // Verificar si el ArrayList de juguetes del gato Minimo está vacío.
+        if (minimo.getJuguetes().isEmpty()) {
+            System.out.println("El ArrayList de juguetes está vacío");
         }
-        
-        minimo.getJuguetes().add("pelota"); 
-        minimo.getJuguetes().add("raton"); 
-        
-        minimo.ImprimirJuguetes();
-        
+
+        // Añadir juguetes al ArrayList de Minimo.
+        minimo.getJuguetes().add("pelota"); // Añade una "pelota" a la lista de juguetes.
+        minimo.getJuguetes().add("raton"); // Añade un "ratón" a la lista de juguetes.
+
+        // Imprimir los juguetes del gato Minimo.
+        minimo.imprimirJuguetes();
         System.out.println("-----------------");
         System.out.println("Ejemplo de Arraylist");
         
@@ -103,27 +111,6 @@ public class Clase3 {
         for (perro p : perros) {
             System.out.println("Nombre: " + p.getNombre() + ", Raza: " + p.getRaza());
         }
-        
-        
-        
-        
-
-        
-        
-        
-        
-        
-        
-        
-        
-       
-        
-        
-        
-        
-        
-        
-        
         
         
     }
