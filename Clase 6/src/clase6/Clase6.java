@@ -46,8 +46,8 @@ public class Clase6 {
         
         //Si al momento de deserializar no hay elementos (lsita esta vacia) se añaden estos de ejemplo
         if (muestras.isEmpty()) {
-            muestras.add(new Muestra(1, "Muestra 1", new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, "Ingreso"));
-            muestras.add(new Muestra(2, "Muestra 2", new int[][]{{9, 8, 7}, {6, 5, 4}, {3, 2, 1}}, "Ingreso"));
+            muestras.add(new Muestra("1", "Muestra 1", new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, "Ingreso"));
+            muestras.add(new Muestra("2", "Muestra 2", new int[][]{{9, 8, 7}, {6, 5, 4}, {3, 2, 1}}, "Ingreso"));
         }
         
         

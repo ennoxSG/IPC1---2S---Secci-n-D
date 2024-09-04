@@ -136,9 +136,9 @@ public class Admin extends javax.swing.JFrame {
                 // Verifica si el clic fue en la columna de los botones
                 if (row < tableMuestras.getRowCount() && row >= 0 && column == 3) {
                     // Obtén el ID de la muestra seleccionada
-                    int id = (int) tableMuestras.getValueAt(row, 0);
+                    String id = (String) tableMuestras.getValueAt(row, 0);
                     for (Muestra mst : muestras){
-                        if(mst.getId() == id ){
+                        if(mst.getId().equals(id) ){
                             generarHTML(id, mst.getPatron()); 
                             JOptionPane.showMessageDialog(null, "Reporte generado! ");
                             break; 
@@ -152,7 +152,7 @@ public class Admin extends javax.swing.JFrame {
     
     }
     
-    private void generarHTML(int codigo, int[][] patron){
+    private void generarHTML(String codigo, int[][] patron){
         String nombreArchivo = "Muestra_" + codigo + ".html"; 
         
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))){
@@ -233,6 +233,7 @@ public class Admin extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableMuestras = new javax.swing.JTable();
+        jButton6 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         comboEstudiante = new javax.swing.JComboBox<>();
         comboMuestra = new javax.swing.JComboBox<>();
@@ -371,6 +372,13 @@ public class Admin extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tableMuestras);
 
+        jButton6.setText("Carga");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -378,13 +386,17 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(455, Short.MAX_VALUE))
+                .addGap(45, 45, 45)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(306, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(159, Short.MAX_VALUE))
         );
 
@@ -648,11 +660,11 @@ public class Admin extends javax.swing.JFrame {
             }
         }
         
-        int idMuestraSeleccionada = Integer.parseInt((String) comboMuestra.getSelectedItem());
+        String idMuestraSeleccionada = (String) comboMuestra.getSelectedItem();
         
         Muestra muestraSeleccionada = null;
         for (Muestra muestra : muestras) {
-            if (muestra.getId() == idMuestraSeleccionada) {
+            if (muestra.getId().equals(idMuestraSeleccionada)) {
                 muestraSeleccionada = muestra;
                 
                 break;
@@ -670,7 +682,86 @@ public class Admin extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        
+        JFileChooser fl = new JFileChooser();
+        fl.setDialogTitle("Seleccionar archivo CSV");
+ 
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivo CSV", "csv");
+        fl.setFileFilter(filter);
+        int result = fl.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File archivoSeleccionado = fl.getSelectedFile();
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(archivoSeleccionado));
+                String linea;
+                br.readLine(); 
+                
+                int no = 1; 
+                while ((linea = br.readLine()) != null) {
+                    String[] valores = linea.split(",");
+ 
+                    if (valores.length == 3) {
+                        String id = valores[0];
+                        
+                        //Funcion para validar si ya existe el ID en el arreglo, si devuelve true ya existe
+                        if(validar(id)){
+                            System.out.println("La muestra con codigo " + id + " ya esta registrada.");
+                            continue;  //salta a la sigueinte iteracion del while (siguiente linea)
+                        }
+                        String nombre = valores[1];
+       
+                        String patron = valores[2];
+                        String[] valoresCarga = patron.split(";");
+                        int size = valoresCarga.length;
+                        int n = (int) Math.sqrt(size);  
+ 
+                        int[][] matrizPatron = new int[n][n];
+                        
+                        int cont = 0; 
+                        for (int i = 0; i < n; i++) {
+                            for (int j = 0; j < n; j++) {
+                                matrizPatron[i][j] = Integer.parseInt(valoresCarga[cont].trim());
+                                cont++; 
+                            }
+                        }
+                        
+                        //Agregar la nueva muestra al arreglo
+                        Muestra msc = new Muestra(id, nombre,matrizPatron, "Ingresado" ); 
+                        muestras.add(msc); 
+                        
+                        
+                        //Impresion del patron leido
+                        System.out.println("Matriz No. " + no +" : " );
+                        for (int i = 0; i < n; i++) {
+                            for (int j = 0; j < n; j++) {
+                                System.out.print(" " + matrizPatron[i][j] + " ");
+                            }
+                            System.out.println("");
+                        }
+                        no++; 
+                    }
+                }
+                
+                JOptionPane.showMessageDialog(this, "Datos cargados con exito");
+                cargarMuestras(); 
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private boolean validar(String codigo){
+        for (Muestra muestra : muestras) {
+            if (muestra.getId().equals(codigo)) {
+                return true;                 
+            }
+        }
+        
+        return false;    
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -683,6 +774,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

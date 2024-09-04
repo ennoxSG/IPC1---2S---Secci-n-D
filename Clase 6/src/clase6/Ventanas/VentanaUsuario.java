@@ -117,11 +117,11 @@ public class VentanaUsuario extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         
-        int idMuestraSeleccionada = Integer.parseInt((String) jComboBox1.getSelectedItem());
+        String idMuestraSeleccionada = (String) jComboBox1.getSelectedItem();
         
         Muestra muestraSeleccionada = null;
         for (Muestra muestra : estudiante.getMuestras()) {
-            if (muestra.getId() == idMuestraSeleccionada) {
+            if (muestra.getId().equals(idMuestraSeleccionada)) {
                 muestraSeleccionada = muestra;
                 
                 break;
