@@ -9,6 +9,7 @@ import Modelo.Hilo_control;
 import Modelo.Hilo_tiempo;
 import Modelo.Pintura;
 import Modelo.Producto;
+import Vistas.Formulario;
 import Vistas.VtnTrabajo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,24 +21,26 @@ import java.awt.event.ActionListener;
 public class Controladorv1 implements ActionListener {
 
     private VtnTrabajo ventana1;
+    private Formulario vtn2;
     private General estructuras; 
 
-    public Controladorv1(VtnTrabajo ventana1, General estructuras) {
+    public Controladorv1(VtnTrabajo ventana1, General estructuras, Formulario ventana2) {
         this.ventana1 = ventana1;
         this.estructuras = estructuras; 
+        this.vtn2 = ventana2; 
         Inicializar();
     }
 
     private void Inicializar() {
-        ventana1.setVisible(true);
-        ventana1.getBtnIniciar().addActionListener(this);
+        vtn2.setVisible(true);
+        vtn2.getBtnProducir().addActionListener(this);
     }
 
     private void iniciarProceso() {
         
         Producto prodSeleccionado = null; 
         for (Producto prd : estructuras.getProductos()) {
-            if(prd.getCodigo().equals(ventana1.getCampoProducto())){
+            if(prd.getCodigo().equals(vtn2.getTxtCod())){
                 prodSeleccionado = prd; 
                 break; 
             }
@@ -67,7 +70,7 @@ public class Controladorv1 implements ActionListener {
         
         Hilo_tiempo hilo_time = new Hilo_tiempo(ventana1.getTxtTime()); 
 
-        Hilo_control control = new Hilo_control(hilo_time, ventana1, pintura );
+        Hilo_control control = new Hilo_control(hilo_time, ventana1, pintura, vtn2.getTxtCant() );
         control.start();
 
     }
@@ -75,6 +78,11 @@ public class Controladorv1 implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ventana1.getBtnIniciar()) {
+            System.out.println("Se presiono el boton");
+        }else if (e.getSource() == vtn2.getBtnProducir() ){
+            vtn2.dispose();
+            ventana1.setVisible(true);
+            ventana1.getBtnIniciar().addActionListener(this);
             iniciarProceso();
         }
     }

@@ -19,11 +19,11 @@ public class Hilo_control extends Thread {
     
     private volatile boolean ejecutar = true;
 
-    public Hilo_control(Hilo_tiempo h4, VtnTrabajo vtn, Pintura pintura) {
+    public Hilo_control(Hilo_tiempo h4, VtnTrabajo vtn, Pintura pintura, int cantidad) {
         this.h4 = h4;
         this.pintura = pintura; 
         this.ventana1 = vtn; 
-        this.cantidad = vtn.getCampoCantidad(); 
+        this.cantidad = cantidad; 
     }
     
     public void detener(){

@@ -8,6 +8,7 @@ import Controlador.Controladorv1;
 import Modelo.General;
 import Modelo.Pintura;
 import Modelo.Producto;
+import Vistas.Formulario;
 import Vistas.VtnTrabajo;
 import java.util.ArrayList;
 
@@ -39,7 +40,8 @@ public class Clase7_Hilos {
         
         
         VtnTrabajo vtn = new VtnTrabajo(); 
-        Controladorv1 controlador1 = new Controladorv1(vtn,modelo_general); 
+        Formulario vista2 = new Formulario(); 
+        Controladorv1 controlador1 = new Controladorv1(vtn,modelo_general, vista2); 
         
         
     }
