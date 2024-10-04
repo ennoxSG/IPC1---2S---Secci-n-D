@@ -1,0 +1,72 @@
+.login-body {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 100vh; /* Altura completa de la ventana del navegador */
+}
+
+.login-container {
+    background-color: #f9f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 400px;
+    max-width: 400px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: flex;
+    /* Usamos flex para alinear mejor los elementos */
+    margin-bottom: 5px;
+    /* Margen inferior de 5px entre la etiqueta y el campo de entrada */
+    color: #555;
+    /* Color de texto gris oscuro para la etiqueta */
+    font-weight: bold;
+    /* Negrita para resaltar la etiqueta */
+}
+
+.form-input {
+    width: 100%;
+    /* Campo de entrada ocupa todo el ancho del contenedor */
+    padding: 10px;
+    /* Espaciado interno de 10px dentro del campo de entrada */
+    border: 1px solid #ddd;
+    /* Borde gris claro para el campo de entrada */
+    border-radius: 5px;
+    /* Bordes redondeados con un radio de 5px */
+    box-sizing: border-box;
+    /* Incluye el padding y el borde en el cálculo del ancho */
+    font-size: 16px;
+    /* Tamaño de fuente de 16px para el texto dentro del campo */
+}
+
+.login-button {
+    width: 100%;
+    /* Botón ocupa todo el ancho del contenedor */
+    padding: 10px;
+    /* Espaciado interno de 10px dentro del botón */
+    background-color: #19001d;
+    /* Color de fondo azul para el botón */
+    color: white;
+    /* Color del texto en el botón, blanco */
+    border-radius: 5px;
+    /* Bordes redondeados con un radio de 5px */
+}
+
+.login-button:hover {
+    background-color: #43023f;
+    /* Cambia el color de fondo a un azul más oscuro al pasar el mouse */
+}
+
+.form-input:focus {
+    outline: none;
+    /* Elimina el contorno predeterminado al enfocar el campo */
+    border-color: #007bff;
+    /* Cambia el color del borde a azul al enfocar */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    /* Agrega un brillo azul suave alrededor del campo al enfocar */
+}

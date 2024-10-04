@@ -1,0 +1,22 @@
+body {
+    min-height: 100vh;
+    /* Establece la altura mínima del cuerpo al 100% de la altura de la ventana gráfica (viewport) */
+    background-image: url('https://www.stpetersacademy.com.pa/wp-content/uploads/2018/06/fondo-login-spa.jpg');
+    /* Define una imagen de fondo utilizando la URL proporcionada */
+    background-size: cover;
+    /* Hace que la imagen de fondo cubra toda el área del cuerpo, escalándola según sea necesario mientras se mantiene la relación de aspecto */
+    background-repeat: no-repeat;
+    /* Evita que la imagen de fondo se repita si no ocupa todo el espacio disponible */
+    background-attachment: fixed;
+    /* Fija la imagen de fondo en su posición, lo que significa que no se moverá al hacer scroll en la página */
+  }
+
+  #root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    
+  }
+  
+  

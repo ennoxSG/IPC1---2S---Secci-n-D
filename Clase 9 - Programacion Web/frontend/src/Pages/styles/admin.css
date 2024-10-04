@@ -1,0 +1,12 @@
+.conteiner-admin {
+    display: flex;
+    flex-direction: column; /* Asegúrate de que los elementos se apilen verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    
+    margin-top: 60px ; /* Agrega un margen superior para separar del Navbar */
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-start; /* Alinea los botones a la izquierda */
+}
