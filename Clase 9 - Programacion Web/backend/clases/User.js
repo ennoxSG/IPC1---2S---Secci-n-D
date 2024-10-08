@@ -4,8 +4,6 @@ class User {
         this.nombre = nombre; 
         this.email = email;
     }
-
-
 }
 
 module.exports = User; 

@@ -1,0 +1,20 @@
+[
+  {
+    "codigo": "104",
+    "nombre": "Juan Pérez",
+    "contraseña": "password123",
+    "edad": 30
+  },
+  {
+    "codigo": "105",
+    "nombre": "María García",
+    "contraseña": "pass456",
+    "edad": 25
+  },
+  {
+    "codigo": "106",
+    "nombre": "Carlos López",
+    "contraseña": "mysecurepassword",
+    "edad": 40
+  }
+]

@@ -25,9 +25,14 @@ const Login = () => {
         console.log(response)
 
         if(response.state){
-
             alert("Ingreso correcto")
-            navigate('/admin/empleado'); 
+            if(rol === "admin"){
+                navigate('/admin/empleado'); 
+            }else if (rol === "empleado"){
+                alert("Modulo aun no disponible")
+            }
+            
+            
 
         }else{
             alert("Datos incorrectos")
@@ -68,8 +73,8 @@ const Login = () => {
                         <label>Rol:</label>
                         <select value={rol} onChange={(e) => setRol(e.target.value)} className="form-input"> {/* Selección del rol */}
                             <option value="admin">Admin</option> {/* Opción para Admin */}
-                            <option value="profesor">Gerente</option> {/* Opción para Gerente */}
-                            <option value="profesor">Empleado</option> {/* Opción para Empleado */}
+                            <option value="gerente">Gerente</option> {/* Opción para Gerente */}
+                            <option value="empleado">Empleado</option> {/* Opción para Empleado */}
                         </select>
                     </div>
                     <button type="submit" className="login-button">Ingresar</button> {/* Botón para enviar el formulario */}

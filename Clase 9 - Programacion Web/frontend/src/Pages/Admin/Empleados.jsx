@@ -1,14 +1,27 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Navbar from '../../components/NavBar';
 import '../styles/admin.css';
 
 const Empleado = () => {
 
-    const data = [
-        { codigo: '101', nombre: 'Ana Gómez', congreseña: '123789', edad: 29 },
-        { codigo: '102', nombre: 'Luis Rodríguez', congreseña: '456012', edad: 35 },
-        { codigo: '103', nombre: 'Sofia Martínez', congreseña: '789456', edad: 27 },
-    ];
+    const [empleados, setEmpleados] = useState([]); 
+
+    useEffect(() => {
+        const fetchEmpleados = async () => {
+
+            try{
+                const response = await fetch('http://localhost:5000/empleados');
+
+                const data = await response.json(); 
+                setEmpleados(data); 
+            } catch (error){
+                console.log("Error al hacer la peticion"); 
+            }
+        }
+
+        fetchEmpleados(); 
+
+    }, [])
 
     const handleEdit = (codigo) => {
         console.log(`Editando empleado con código: ${codigo}`);
@@ -18,14 +31,42 @@ const Empleado = () => {
         console.log(`Eliminando empleado con código: ${codigo}`);
     };
 
-    const handleCargar = () => {
-        console.log('Cargando datos...');
+    const handleCargar = async (event) => {
+        console.log("Aui")
+        const file = event.target.files[0]; 
+        if(file){
+            const reader = new FileReader(); 
+            reader.onload = async (e) => {
+                try {
+                    const jsonData = JSON.parse(e.target.result); //Archivos a enviar al backend
+                    const response = await fetch("http://localhost:5000/empleados/upload", {
+                        method: "POST",
+                        headers: {
+                            'Content-Type' : 'application/json'
+                        },
+                        body: JSON.stringify(jsonData)
+                    });
 
-    };
+                    if(response.ok){
+                        console.log("Datos cargados correctamente")
+                        const result = await response.json(); 
+                        alert(result.mensaje)
 
-    const handleImportar = () => {
-        console.log('Importando datos...');
+                        setEmpleados((prevEmpleados) => [...prevEmpleados, ...result.empleados]);
+                    }else{
+                        console.error("Datos no se cargaron en el backend")
+                    }
 
+                } catch (error){
+                    console.error("Error al hacer la peticion: " , error)
+                }
+
+            }
+            reader.readAsText(file);
+
+        }else {
+            console.log("No se encuentra el archivo")
+        }
     };
 
     return (
@@ -35,12 +76,15 @@ const Empleado = () => {
                 <h2>Lista de Empleados</h2>
 
                 <div className="button-group" style={{ marginBottom: '20px' }}>
-                    <button onClick={handleCargar} className="btn btn-primary" style={{ marginRight: '10px' }}>
+                    <label className="btn btn-primary"> 
                         Cargar
-                    </button>
-                    <button onClick={handleImportar} className="btn btn-secondary">
-                        Importar
-                    </button>
+                        <input 
+                            type="file"
+                            accept='.json'
+                            style={{display: 'none'}}
+                            onChange={handleCargar}
+                        />
+                    </label>
                 </div>
 
                 <table className="table table-striped w-80">
@@ -48,17 +92,17 @@ const Empleado = () => {
                         <tr>
                             <th>Código</th>
                             <th>Nombre</th>
-                            <th>congreseña</th>
+                            <th>contraseña</th>
                             <th>Edad</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((user) => (
+                        {empleados.map((user) => (
                             <tr key={user.codigo}>
                                 <td>{user.codigo}</td>
                                 <td>{user.nombre}</td>
-                                <td>{user.congreseña}</td>
+                                <td>{user.contraseña}</td>
                                 <td>{user.edad}</td>
                                 <td>
                                     <button onClick={() => handleEdit(user.codigo)} className="btn btn-warning">
