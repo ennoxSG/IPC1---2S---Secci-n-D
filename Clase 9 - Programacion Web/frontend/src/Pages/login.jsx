@@ -1,6 +1,7 @@
 import React, {useState} from 'react'; 
 import './styles/login.css'
 import { loginAuth } from '../server/autenticacion';
+import Cookies from 'js-cookie'; 
 
 import { useNavigate } from 'react-router-dom';
 
@@ -29,7 +30,9 @@ const Login = () => {
             if(rol === "admin"){
                 navigate('/admin/empleado'); 
             }else if (rol === "empleado"){
-                alert("Modulo aun no disponible")
+                Cookies.set("nombre", response.nombre)
+                Cookies.set("codigo", response.code)
+                navigate('/empleado/general'); 
             }
             
             

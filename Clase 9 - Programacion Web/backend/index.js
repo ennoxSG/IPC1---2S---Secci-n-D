@@ -21,13 +21,77 @@ app.post('/empleados/upload', (req, res) => {
         return res.status(400).json({error: "Los datos enviados no son validos."})
     }
 
-    empleados = [...empleados, ...nuevosEmpleados];
+    const empleadosAAgregar = []; 
+
+    nuevosEmpleados.forEach(emp => {
+        if(!emp.codigo || !emp.nombre || !emp.contraseña || !emp.edad){
+            console.log("El empleado con el codigo" , emp.codigo , "no tiene todos los datos requeridos")
+            return; 
+        }
+
+        //Some devuelve verdadero si enceuntra el valor
+        const codigoExite = empleados.some(e => e.codigo === emp.codigo ); 
+
+        if(codigoExite){
+            console.log("El codigo ya existe: ", emp.codigo)
+            return; 
+        }
+
+        const nuevosEmpleado = new Empleado(emp.codigo, emp.nombre , emp.contraseña, emp.edad);
+        empleadosAAgregar.push(nuevosEmpleado); 
+
+    })
+
+    if(empleadosAAgregar.length === 0){
+        return res.json({mensaje: "No se añadio ningun empleado.", empleados: []})
+    }
+
+
+    empleados = [...empleados, ...empleadosAAgregar];
 
     res.json({
         mensaje: "Empleados añadidos con exito",
-        empleados: nuevosEmpleados
+        empleados: empleadosAAgregar
     })
 })
+
+app.put('/empleados/actualizar', (req, res) => {
+    const {codigo, nombre, contraseña, edad} = req.body; 
+    const empleadIndex = empleados.findIndex(emp => emp.codigo === codigo)
+
+    if(empleadIndex ==! -1){
+        empleados[empleadIndex] = {
+            ...empleados[empleadIndex],
+            nombre,
+            contraseña,
+            edad
+        };
+        res.status(200).json({ mensaje: 'Empleado actualizado correctamente', empleado: empleados[empleadIndex] });
+    }else{
+        res.status(404).json({ mensaje: 'Empleado no encontrado' });
+    }
+ 
+})
+
+
+app.delete('/empleados/eliminar', (req, res) => {
+    const codigo = req.body.codigo; 
+    
+    const empleadoIndex = empleados.findIndex(emp => emp.codigo === codigo);
+
+    if (empleadoIndex !== -1) {
+        // Eliminar al empleado de la lista
+        const empleadoEliminado = empleados.splice(empleadoIndex, 1); // splice devuelve el empleado eliminado en un array
+        res.status(200).json({ mensaje: 'Empleado eliminado correctamente', empleado: empleadoEliminado[0] });
+    } else {
+        res.status(404).json({ mensaje: 'Empleado no encontrado' });
+    }
+ 
+})
+
+
+
+
 
 app.post('/login', (req, res) => {
     const {rol, carnet, password} = req.body; 
@@ -42,70 +106,13 @@ app.post('/login', (req, res) => {
     if (rol === "empleado") {
         const empleado = empleados.find(emp => emp.codigo === carnet && emp.contraseña === password);
         if(empleado){
-            return res.json({state: true}); 
+            return res.json({state: true, code: empleado.codigo, nombre: empleado.nombre}); 
         }else{
             return res.json({state: false}); 
         }
     }
 
     return res.json({state: false}); 
-
-})
-
-
-
-app.get('/saludo', (req, res) => {
-    res.send("Hola mundo!");
-
-})
-
-app.get('/saludo2', (req, res) => {
-    res.json({ 
-        mensaje: '¡Bienvenido a la API!',
-        estado : "correcto"
-     });
-})
-
-app.post('/rutaPost', (req, res) => {
-    const nombre = req.body.nombre; 
-    res.json({
-        mensaje : "Hola " + nombre
-    })
-})
-
-
-app.post('/Registro', (req, res) => {
-    const {nombre, email} = req.body; 
-    const nuevoUsuario = new User(usuarios.length + 1, nombre, email); 
-    usuarios.push(nuevoUsuario); 
-    res.json({
-        mensaje: "Usuario añadido exitosamente"
-    })
-})
-
-app.get("/Usuarios" , (req, res) => {
-    res.json(usuarios); 
-})
-
-app.put("/Actualizar/:id", (req, res) => {
-    const {id} = req.params; 
-    const {nombre, email} = req.body; 
-
-    const usuario = usuarios.find(user => user.id == id); 
-
-    if( !usuario ){
-        return res.status(404).json({error: "Usuario no se encontro."}); 
-    }
-
-    if (nombre){
-        usuario.nombre = nombre; 
-    }
-
-    if(email){
-        usuario.email = email; 
-    }
-
-    res.json(usuario); 
 
 })
 

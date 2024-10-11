@@ -11,7 +11,7 @@ body {
     /* Fija la imagen de fondo en su posición, lo que significa que no se moverá al hacer scroll en la página */
   }
 
-  #root {
+#root {
     max-width: 1280px;
     margin: 0 auto;
     padding: 2rem;
