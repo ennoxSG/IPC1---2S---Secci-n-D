@@ -33,10 +33,11 @@ const Login = () => {
                 Cookies.set("nombre", response.nombre)
                 Cookies.set("codigo", response.code)
                 navigate('/empleado/general'); 
+            }else if (rol === "gerente"){
+                Cookies.set("nombre", response.nombre)
+                Cookies.set("codigo", response.code)
+                navigate('/gerente/proyectos'); 
             }
-            
-            
-
         }else{
             alert("Datos incorrectos")
         }
