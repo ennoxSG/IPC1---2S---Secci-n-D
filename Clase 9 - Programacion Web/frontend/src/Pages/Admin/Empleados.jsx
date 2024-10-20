@@ -2,6 +2,11 @@ import React, {useState, useEffect} from 'react';
 import Navbar from '../../components/NavBar';
 import '../styles/admin.css';
 
+//Importacion de librerias filesaver y xlsx 
+// instaladas con: npm install xlsx file-saver
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+
 const Empleado = () => {
 
 
@@ -123,6 +128,21 @@ const Empleado = () => {
         }
     };
 
+    // Función para exportar los datos de 'empleados' a un archivo Excel
+    const exportarExcel = () => {
+        // Crea una hoja de cálculo a partir de los datos de empleados
+        const worksheet = XLSX.utils.json_to_sheet(empleados); 
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Empleados");
+
+        // Convierte el libro de Excel a formato binario
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+        // Crea un Blob con los datos binarios y lo guarda como archivo
+        const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        saveAs(data, 'empleados.xlsx');
+    };
+
     return (
         <div>
             <Navbar />
@@ -139,6 +159,11 @@ const Empleado = () => {
                             onChange={handleCargar}
                         />
                     </label>
+
+                    <button onClick={exportarExcel} className="btn btn-success">
+                        Exportar a Excel
+                    </button>
+
                 </div>
 
                 <table className="table table-striped w-80">
